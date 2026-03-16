@@ -117,7 +117,7 @@ export default function AuthLogin({ isDemo = false }) {
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
+                    id="password-login"
                     type={showPassword ? 'text' : 'password'}
                     value={values.password}
                     name="password"
@@ -181,7 +181,7 @@ export default function AuthLogin({ isDemo = false }) {
               </Grid>
             </Grid>
             {errors.submit && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Grid>
             )}
