@@ -30,13 +30,12 @@ import SettingOutlined from '@ant-design/icons/SettingOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import avatar1 from 'assets/images/users/avatar-1.png';
 
-import { enqueueSnackbar, useSnackbar } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
-  const { enqueueSnackbar } = useSnackbar();
   return (
     <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`} aria-labelledby={`profile-tab-${index}`} {...other}>
       {value === index && children}
@@ -76,13 +75,15 @@ export default function Profile() {
     setValue(newValue);
   };
 
+  const userName = localStorage.getItem('userName') || 'User';
+  const userEmail = localStorage.getItem('userEmail') || '';
+  const userRole = localStorage.getItem('userRole') || '';
+
   const handleLogout = () => {
     localStorage.clear();
     enqueueSnackbar('Logged out successfully', { variant: 'success' });
     navigate('/login');
   };
-
-  // enqueueSnackbar('Logged out successfully', { variant: 'info' });
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
@@ -104,7 +105,7 @@ export default function Profile() {
         <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center', p: 0.5 }}>
           <Avatar alt="profile user" src={avatar1} size="sm" />
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
-            John Doe
+            {userName}
           </Typography>
         </Stack>
       </ButtonBase>
@@ -137,9 +138,9 @@ export default function Profile() {
                         <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center' }}>
                           <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
                           <Stack>
-                            <Typography variant="h6">John Doe</Typography>
+                            <Typography variant="h6">{userName}</Typography>
                             <Typography variant="body2" color="text.secondary">
-                              UI/UX Designer
+                              {userEmail || userRole}
                             </Typography>
                           </Stack>
                         </Stack>
@@ -191,7 +192,7 @@ export default function Profile() {
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0} dir={theme.direction}>
-                    <ProfileTab />
+                    <ProfileTab handleLogout={handleLogout} />
                   </TabPanel>
                   <TabPanel value={value} index={1} dir={theme.direction}>
                     <SettingTab />
